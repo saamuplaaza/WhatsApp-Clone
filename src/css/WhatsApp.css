@@ -173,11 +173,10 @@
   border-top: 1px solid #ccc;
 }
 
-input[type="text"] {
+input {
   flex: 1;
   padding: 10px;
-  border: none;
-  outline: none;
+  border-radius: 10px;
 }
 
 button {

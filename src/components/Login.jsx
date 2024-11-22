@@ -43,7 +43,7 @@ function Login({setToken}) {
                 <input type="email" name="email" id="email" placeholder='Email'/>
                 <input  type="password" name="password" id="password" placeholder='Contraseña'/>
                 <button type="submit" className='botonLogin'>Iniciar Sesión</button>
-                <p>¿No tienes una cuenta? <a href="signUp.html">Regístrate</a></p>
+                <p>¿No tienes una cuenta? <a href="src/signUp.html">Regístrate</a></p>
             </form>
         </>
     )
