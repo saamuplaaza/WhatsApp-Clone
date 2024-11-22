@@ -1,7 +1,7 @@
 import { useState } from "react"
 import WhatsApp from './components/WhatsApp.jsx'
 import Login from './components/Login.jsx'
-import SignUp from "./components/signup.jsx"
+import SignUp from './components/Signup.jsx'
 import "./App.css"
 import { createClient } from "@supabase/supabase-js"
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
