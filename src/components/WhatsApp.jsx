@@ -4,7 +4,7 @@ import ChatWindow from "./ChatWindow";
 import "../css/WhatsApp.css";
 import "../App.css"
 // import { Notifications } from 'react-push-notification';
-import Prueba from "./Prueba";
+// import Prueba from "./Prueba";
 
 
 function WhatsApp() {

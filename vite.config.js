@@ -14,6 +14,5 @@ export default defineConfig({
         environment: "jsdom", // necesario para las pruebas de React
         globals: true, // permite usar describe, it, etc. sin importar Vitest en cada archivo
         setupFiles: "./src/setupTests.js", // Opcional: archivo de configuración de pruebas
-        base: "", // opcional: directorio base
     },
 })
