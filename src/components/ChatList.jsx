@@ -1,17 +1,10 @@
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { LiaCheckDoubleSolid } from "react-icons/lia";
-
 import "../css/ChatList.css";
-import chats from "../mocks/dataChats.json";
+// import chats from "../mocks/dataChats.json";
 import { funcSelectChats } from "../mocks/chats.js";
 import Avatar from "@mui/material/Avatar";
 import { useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js"
 import { supabase } from "./Login.jsx";
 
-// const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-// const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
-// const supabase = createClient(supabaseUrl, supabaseKey)
 const user_id = sessionStorage.getItem("user_id")
 /* mapea los chats que está en los mocks/chats.js y los muestra en la lista de chats  
 debes pensar donde hacer el fetch, si pasarlo como props... pero no lo dejes como variable global
