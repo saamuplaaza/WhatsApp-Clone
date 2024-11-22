@@ -50,6 +50,7 @@ function FormGrupo({usuario}) {
                 .select()
         }
         añadirImagen()
+        cerrarModal()
     }
 
 
