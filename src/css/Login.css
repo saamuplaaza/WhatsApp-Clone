@@ -1,0 +1,15 @@
+#form_login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.incorrecto{
+    color: red;
+    margin-bottom: 5px;
+}
+
+#form_login>input{
+    margin-bottom: 10px;
+}
