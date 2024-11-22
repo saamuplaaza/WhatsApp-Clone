@@ -1,23 +1,13 @@
-// import { createClient } from "@supabase/supabase-js"
-// const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-// const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
-// const supabase = createClient(supabaseUrl, supabaseKey)
 import "../css/SignUp.css"
 import { supabase } from "../App"
 
 function SignUp() {
-    // console.log(supabase)
-
-    // const boton = document.querySelector(".botonRegistro")
-    // console.log(boton)
 
     async function handleClick() {
         const username = document.getElementById("username").value
         
         const email = document.getElementById("email-signup").value
-        console.log(email)
         const password = document.getElementById("password-signup").value
-        console.log(password)
         let { data, error } = await supabase.auth.signUp({
             email: email,
             password: password,

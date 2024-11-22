@@ -4,7 +4,6 @@ import { supabase } from "../App.jsx"
 
 function Login({setToken}) {
     async function IniciarSesion(event){
-        // console.log(event)
         event.preventDefault()
         const email = document.querySelector('#email')
         const password = document.querySelector('#password')
