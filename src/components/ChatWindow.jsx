@@ -15,7 +15,7 @@ import ModalEliminar from "./ModalEliminar.jsx";
 // const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 // const supabase = createClient(supabaseUrl, supabaseKey);
 const apptitle = import.meta.env.VITE_TITLE;
-import { supabase } from "./Login.jsx";
+import { supabase } from "../App.jsx";
 
 
 function ChatWindow({ selectedChat, onSelectChat, usuario, chats }) {
@@ -29,7 +29,7 @@ function ChatWindow({ selectedChat, onSelectChat, usuario, chats }) {
 
   useEffect(() => {
     if(chats.length > 0){
-      if(selectedChat !== null){
+      if(selectedChat){
         let [chat] = chats.filter((c) => c.id === selectedChat.id)
         onSelectChat(chat)
     }}
@@ -76,7 +76,6 @@ function ChatWindow({ selectedChat, onSelectChat, usuario, chats }) {
             // <Avatar>{selectedChat.name.charAt(0).toUpperCase()}</Avatar>
             <Avatar src = {selectedChat.participants.length===2?
               (selectedChat.participants.filter((p) => p !== usuario)[0].charAt(0).toUpperCase()):
-              // console.log(selectedChat.imagen)
               selectedChat.imagenGrupo!==null?selectedChat.imagenGrupo:""
             }></Avatar>
           )}

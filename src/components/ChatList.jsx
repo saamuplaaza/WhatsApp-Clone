@@ -3,7 +3,7 @@ import "../css/ChatList.css";
 import { funcSelectChats } from "../mocks/chats.js";
 import Avatar from "@mui/material/Avatar";
 import { useEffect, useState } from "react";
-import { supabase } from "./Login.jsx";
+import { supabase } from "../App.jsx";
 
 const user_id = sessionStorage.getItem("user_id")
 /* mapea los chats que está en los mocks/chats.js y los muestra en la lista de chats  

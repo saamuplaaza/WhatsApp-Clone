@@ -1,8 +1,7 @@
 import "../css/BotonNuevo.css"
-import { supabase } from "./Login"
+import { supabase } from "../App";
 
 const accessToken = sessionStorage.getItem('user_id')
-const channel2 = supabase.channel('insertImagesOnStorage', {config: {private: true}});
 
 
 function FormGrupo({usuario}) {
@@ -27,20 +26,6 @@ function FormGrupo({usuario}) {
                 .from(bucketName)
                 .upload(filePath, file);
 
-
-            // ! No me funciona al hacer insert, solo al borrar, no he provado el update
-            // channel2
-            //     .on(
-            //         "postgres_changes",
-            //         { event: '*', schema: 'storage' },
-            //         (payload) => {
-            //             console.log(payload)
-            //             if(payload.new.owner === accessToken){
-            //                 console.log("bien")
-                            // setChats((prevChats) => [...prevChats, payload.new]);
-                    //     }
-                    // }
-                // ).subscribe()
                 const { data2, error2 } = await supabase
                 .from('conversations')
                 // TODO: terminar de poner los grupos bien
@@ -51,6 +36,7 @@ function FormGrupo({usuario}) {
         }
         añadirImagen()
         cerrarModal()
+        
     }
 
 

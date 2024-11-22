@@ -1,4 +1,4 @@
-import { supabase } from "./Login"
+import { supabase } from "../App.jsx"
 
 function ModalEliminar({selectedChat}){
     function cerrarModal(){

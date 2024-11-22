@@ -1,5 +1,5 @@
 import "../css/BotonNuevo.css"
-import { supabase } from "./Login"
+import { supabase } from "../App.jsx"
 function FormNuevoContacto({usuario}) {
     function cerrarModal(){
         const modalGrupo = document.querySelector('.modal-contacto')

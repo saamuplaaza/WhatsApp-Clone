@@ -1,9 +1,6 @@
 // import { useEffect } from 'react'
 import '../css/Login.css'
-import { createClient } from "@supabase/supabase-js"
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
-export const supabase = createClient(supabaseUrl, supabaseKey)
+import { supabase } from "../App.jsx"
 
 function Login({setToken}) {
     async function IniciarSesion(event){
@@ -43,7 +40,10 @@ function Login({setToken}) {
                 <input type="email" name="email" id="email" placeholder='Email'/>
                 <input  type="password" name="password" id="password" placeholder='Contraseña'/>
                 <button type="submit" className='botonLogin'>Iniciar Sesión</button>
-                <p>¿No tienes una cuenta? <a href="../../signup.html">Regístrate</a></p>
+                <p>¿No tienes una cuenta? <button type="button" className="botonRegistrar" onClick={()=>{
+                        const signup = document.querySelector(".signUp")
+                        signup.classList.toggle("oculto")
+                }}>Regístrate</button></p>
             </form>
         </>
     )

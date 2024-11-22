@@ -1,0 +1,51 @@
+.signUp{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: black;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    padding: 0;
+}
+
+.form_registro{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    border: 2px solid #075e54;
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+}
+
+.form_registro>div{
+    margin-bottom: 20px;
+}
+
+
+
+
+/* #form_registro{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#form_registro>input{
+    margin-bottom: 10px;
+}
+
+/* #form_registro>button{
+    width: 40%;
+} */ */
+
+.oculto{
+    display: none;
+    visibility: hidden;
+}
