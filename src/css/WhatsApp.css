@@ -55,6 +55,12 @@
   cursor: pointer;
 }
 
+@media (min-width: 769px) {
+  .close-button {
+    display: none;
+  }
+}
+
 .chat-list {
   flex: 1;
   overflow-y: auto;
@@ -83,6 +89,33 @@
   .menu-button {
     display: block;
   }
+}
+
+.footer-sidebar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin:0 5px 5px 5px;
+}
+
+.boton-logout{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: red;
+  font-size: 16px;
+  padding: 0;
+  background-color: transparent;
+}
+
+.boton-logout:hover{
+  color: rgb(226, 0, 0);
+  transform: scale(1.07);
+}
+
+.boton-logout:active{
+  transform: scale(1);
 }
 
 /* Estilos de la ventana de chat */

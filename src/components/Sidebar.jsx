@@ -1,9 +1,15 @@
 import ChatList from "./ChatList";
 import BotonNuevo from "./BotonNuevo";
 import { useEffect, useState } from "react";
+import { CiLogout } from "react-icons/ci";
+
 /* eslint-disable react/prop-types */
 
 function Sidebar({ selectedChat ,onSelectChat, isOpen, onClose, usuario, setUsuario, chats, setChats }) {
+  function logout(){
+    sessionStorage.clear()
+    window.location.href = "index.html"
+  }
   return (
     <div className={`sidebar ${isOpen ? "open" : ""}`}>
       <div className="sidebar-header">
@@ -25,7 +31,10 @@ function Sidebar({ selectedChat ,onSelectChat, isOpen, onClose, usuario, setUsua
           onClose(); // Cerrar el sidebar al seleccionar un chat en pantallas pequeñas
         }}
       />
-      <BotonNuevo usuario={usuario}/>
+      <div className="footer-sidebar">
+        <button className="boton-logout" onClick={logout}><CiLogout /> Cerrar Sesión</button>
+        <BotonNuevo usuario={usuario}/>
+      </div>
     </div>
   );
 }
