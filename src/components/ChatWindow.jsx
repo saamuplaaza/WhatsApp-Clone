@@ -62,7 +62,11 @@ function ChatWindow({ selectedChat, onSelectChat, usuario, chats }) {
   };
 
   if (!selectedChat) {
-    return <div className="chat-window">Select a chat to start messaging</div>;
+    return <div className="chat-window">
+        <p className="no-chat-selected">
+          Select a chat to start messaging
+        </p>
+      </div>;
   }
 
   return (

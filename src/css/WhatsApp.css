@@ -91,7 +91,17 @@
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
+  height: 100%;
   width: 100%; /* Asegurarse de que ocupe el resto del ancho disponible */
+}
+
+.no-chat-selected{
+  color: white;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
 }
 
 .chat-header {
@@ -171,6 +181,7 @@
   display: flex;
   padding: 10px;
   border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 
 input {

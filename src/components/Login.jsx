@@ -34,12 +34,12 @@ function Login({setToken}) {
 
     return (
         <>
-            <h1>Login</h1>
+            <h1>LOGIN</h1>
             <form method='POST' id='form_login' onSubmit={IniciarSesion}>
                 <input type="email" name="email" id="email" placeholder='Email'/>
                 <input  type="password" name="password" id="password" placeholder='Contraseña'/>
                 <button type="submit" className='botonLogin'>Iniciar Sesión</button>
-                <p>¿No tienes una cuenta? <button type="button" className="botonRegistrar" onClick={()=>{
+                <p>¿Aún no tienes una cuenta? <button type="button" className="botonRegistrar" onClick={()=>{
                         const signup = document.querySelector(".signUp")
                         signup.classList.toggle("oculto")
                 }}>Regístrate</button></p>
