@@ -28,7 +28,7 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
         }
     };
 
-    const sendNotification = (creator, duration = 5000) => {
+    const sendNotification = (payload, duration = 5000) => {
         if (Notification.permission === "granted") {
             // Close previous notification if it exists
             if (activeNotification) {
@@ -69,10 +69,10 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
         // Add a small delay if there's an active notification
         if (activeNotification) {
             setTimeout(() => {
-                sendNotification(payload.new, 3000);
+                sendNotification(payload, 3000);
             }, 100);
         } else {
-            sendNotification(payload.new, 3000);
+            sendNotification(payload, 3000);
         }
     };
     
@@ -87,7 +87,7 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
                 if(payload.new.participants.includes(usuario)){
                     setChats((prevChats) => [...prevChats, payload.new]);
                     if(payload.new.created_by !== usuario){
-                        handleSendNotification(payload.new);
+                        handleSendNotification(payload);
                     }
                 }
             }
