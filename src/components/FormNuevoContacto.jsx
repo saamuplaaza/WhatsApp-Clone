@@ -9,7 +9,7 @@ function FormNuevoContacto({usuario}) {
         navigate('/home')
     }
     async function crearContacto(){
-        const username = document.querySelector('#nombre-usuario').value 
+        const username = document.querySelector('#nombre-usuario').value
         let datos = {
             participants: [usuario, username],
             created_by: usuario
