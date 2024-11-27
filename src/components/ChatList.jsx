@@ -28,14 +28,15 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
         }
     };
 
-    const sendNotification = (duration = 5000) => {
+    const sendNotification = (creator, duration = 5000) => {
         if (Notification.permission === "granted") {
             // Close previous notification if it exists
             if (activeNotification) {
                 activeNotification.close();
             }
+
             const notification = new Notification("WhatsApp - Clone", {
-                body: `@${usuario} te ha añadido a un grupo `,
+                body: `@${payload.new.created_by} te ha añadido a un grupo nuevo `,
                 icon: "/chat.svg",
                 silent: false,
                 requireInteraction: false,
@@ -61,17 +62,17 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
         }
     };
     
-    const handleSendNotification = async () => {
+    async function handleSendNotification(payload){
         if (Notification.permission !== "granted") {
             await requestPermission();
         }
         // Add a small delay if there's an active notification
         if (activeNotification) {
             setTimeout(() => {
-                sendNotification(3000);
+                sendNotification(payload.new, 3000);
             }, 100);
         } else {
-            sendNotification(3000);
+            sendNotification(payload.new, 3000);
         }
     };
     
@@ -82,9 +83,12 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
             "postgres_changes",
             { event: 'INSERT', schema: 'public', table: 'conversations',  },
             (payload) => {
+                console.log(payload.new)
                 if(payload.new.participants.includes(usuario)){
                     setChats((prevChats) => [...prevChats, payload.new]);
-                    handleSendNotification();
+                    if(payload.new.created_by !== usuario){
+                        handleSendNotification(payload.new);
+                    }
                 }
             }
         )
