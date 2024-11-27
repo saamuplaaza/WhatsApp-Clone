@@ -11,7 +11,8 @@ function FormNuevoContacto({usuario}) {
     async function crearContacto(){
         const username = document.querySelector('#nombre-usuario').value 
         let datos = {
-            participants: [usuario, username]
+            participants: [usuario, username],
+            created_by: usuario
         }
         const { data, error } = await supabase
             .from('conversations')

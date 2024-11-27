@@ -34,10 +34,8 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
             if (activeNotification) {
                 activeNotification.close();
             }
-
-            
             const notification = new Notification("WhatsApp - Clone", {
-                body: `Mensaje de prueba `,
+                body: `@${usuario} te ha añadido a un grupo `,
                 icon: "/chat.svg",
                 silent: false,
                 requireInteraction: false,
@@ -64,10 +62,6 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
     };
     
     const handleSendNotification = async () => {
-        console.log("Dentro handle")
-        // setTimeout(() => {
-        // }, 5000);
-        // alert("entra")
         if (Notification.permission !== "granted") {
             await requestPermission();
         }
@@ -89,11 +83,8 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
             { event: 'INSERT', schema: 'public', table: 'conversations',  },
             (payload) => {
                 if(payload.new.participants.includes(usuario)){
-                    console.log("Primero")
                     setChats((prevChats) => [...prevChats, payload.new]);
-                    console.log("Segundo")
                     handleSendNotification();
-                    console.log("Tercero")
                 }
             }
         )
