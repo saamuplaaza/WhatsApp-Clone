@@ -1,5 +1,6 @@
 import "../css/SignUp.css"
 import { supabase } from "../App"
+import { Link } from "react-router-dom"
 
 function SignUp() {
 
@@ -34,16 +35,16 @@ function SignUp() {
     }
 
     return (
-        <div className="signUp oculto">
+        <div className="signUp">
             <h2>Sign Up</h2>
-            <div id="form_registro">
+            <div className="form_registro">
                 <input type="text" name="name" id="name" placeholder="Nombre"></input>
                 <input type="text" name="lastName" id="lastName" placeholder="Apellidos"></input>
                 <input type="text" name="username" id="username" placeholder="Nombre de Usuario" required></input>
                 <input type="text" name="email" id="email-signup" placeholder="Email" required></input>
                 <input type="password" name="password" id="password-signup" placeholder="Contraseña" required></input>
                 <button type="button" className="botonRegistro" onClick={handleClick}>Registrarse</button>
-                <a href="index.html">Volver al inicio</a>
+                <Link to="/">Volver al inicio</Link>
             </div>
         </div>
         

@@ -18,7 +18,7 @@ const apptitle = import.meta.env.VITE_TITLE;
 import { supabase } from "../App.jsx";
 
 
-function ChatWindow({ selectedChat, onSelectChat, usuario, chats }) {
+function ChatWindow({ selectedChat, onSelectChat, chats, usuario }) {
 
   function abrirModal(){
     const modalEliminar = document.querySelector('.modal-eliminar')
@@ -28,22 +28,29 @@ function ChatWindow({ selectedChat, onSelectChat, usuario, chats }) {
   // const [newMessage, setNewMessage] = useState("");
 
   useEffect(() => {
-    if(chats.length > 0){
-      if(selectedChat){
-        let [chat] = chats.filter((c) => c.id === selectedChat.id)
-        onSelectChat(chat)
-    }}
+    if(chats){
+      if(chats.length > 0){
+        if(selectedChat){
+          let [chat] = chats.filter((c) => c.id === selectedChat.id)
+          onSelectChat(chat)
+        }}
+    }
   }, [chats])
 
   useEffect(() => {
     const divMessages = document.querySelector(".messages")
+    const input = document.getElementById("new-message")
       if(divMessages){  
       divMessages.scrollTop = divMessages.scrollHeight
+    }
+    if(input){
+      input.focus()
     }
       
   }, [selectedChat])
 
-  async function  handleSendMessage(){
+  async function  handleSendMessage(event){
+    event.preventDefault()
     let newMessage = document.getElementById("new-message").value
     if(newMessage===""){
       return
@@ -105,20 +112,20 @@ function ChatWindow({ selectedChat, onSelectChat, usuario, chats }) {
           />
         )}): <p>No hay mensajes</p>}
       </div>
-      <div className="input-box">
+      <form className="input-box" onSubmit={handleSendMessage}>
         <input
           id="new-message"
           type="text"
           placeholder="Escribe tu mensaje..."
         />
-        <Fab variant="extended" onClick={handleSendMessage} >
+        <Fab variant="extended" >
           <SendIcon sx={{ color: "#075e54" }} />
           Enviar
         </Fab>
         <Fab variant="extended">
           <AttachFileIcon sx={{ color: "#075e54" }} />
         </Fab>
-      </div>
+      </form>
     </div>
   );
 }

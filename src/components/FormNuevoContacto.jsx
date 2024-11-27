@@ -1,9 +1,12 @@
 import "../css/BotonNuevo.css"
 import { supabase } from "../App.jsx"
+import { useNavigate } from "react-router-dom"
+
 function FormNuevoContacto({usuario}) {
+
+    const navigate = useNavigate()
     function cerrarModal(){
-        const modalGrupo = document.querySelector('.modal-contacto')
-        modalGrupo.classList.toggle('oculto')
+        navigate('/home')
     }
     async function crearContacto(){
         const username = document.querySelector('#nombre-usuario').value 
@@ -19,7 +22,7 @@ function FormNuevoContacto({usuario}) {
         cerrarModal()
     }
     return (
-            <div className="modal-contacto oculto">
+            <div className="modal-contacto">
                 <h1>Nuevo Contacto</h1>
                 <button className="cerrar-modal" onClick={cerrarModal}>x</button>
                 <div className="form-grupo">

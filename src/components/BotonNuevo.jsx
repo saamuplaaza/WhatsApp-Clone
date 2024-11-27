@@ -1,21 +1,21 @@
 import "../css/BotonNuevo.css"
 import FormGrupo from "./FormGrupo";
 import FormNuevoContacto from "./FormNuevoContacto";
+import { useNavigate } from "react-router-dom";
 
-function BotonNuevo({usuario}) {
+function BotonNuevo() {
+    const navigate = useNavigate()
     function handleClick() {
         const opciones = document.querySelector('.opciones')
         opciones.classList.toggle('oculto')
     }
 
     function modalGrupo() {
-        const divModal = document.querySelector('.modal-grupo')
-        divModal.classList.toggle('oculto')
+        navigate('/home/new-group')
     }
 
     function modalContacto() {
-        const divModal = document.querySelector('.modal-contacto')
-        divModal.classList.toggle('oculto')
+        navigate('/home/new-contact')
     }
 
     return (
@@ -27,8 +27,6 @@ function BotonNuevo({usuario}) {
                     <button type="button"className="boton-contacto" onClick={modalContacto}>Añadir contacto</button>
                 </div>
             </div>
-            <FormGrupo usuario={usuario}/>
-            <FormNuevoContacto usuario={usuario}/>
         </>
     );
 }

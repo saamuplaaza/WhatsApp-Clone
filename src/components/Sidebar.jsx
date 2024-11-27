@@ -2,13 +2,16 @@ import ChatList from "./ChatList";
 import BotonNuevo from "./BotonNuevo";
 import { useEffect, useState } from "react";
 import { CiLogout } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
+// import Prueba from "./Prueba";
 
 /* eslint-disable react/prop-types */
 
-function Sidebar({ selectedChat ,onSelectChat, isOpen, onClose, usuario, setUsuario, chats, setChats }) {
+function Sidebar({ selectedChat ,onSelectChat, isOpen, onClose, chats, setChats, usuario, setUsuario }) {
+  const navigate = useNavigate()
   function logout(){
     sessionStorage.clear()
-    window.location.href = "index.html"
+    navigate("/login")
   }
   return (
     <div className={`sidebar ${isOpen ? "open" : ""}`}>
@@ -33,7 +36,7 @@ function Sidebar({ selectedChat ,onSelectChat, isOpen, onClose, usuario, setUsua
       />
       <div className="footer-sidebar">
         <button className="boton-logout" onClick={logout}><CiLogout /> Cerrar Sesión</button>
-        <BotonNuevo usuario={usuario}/>
+        <BotonNuevo />
       </div>
     </div>
   );

@@ -2,6 +2,10 @@
     overflow-y: scroll;
 }
 
+.messages>p{
+    color: white;
+}
+
 .message{
     padding: 10px;
     margin: 5px;

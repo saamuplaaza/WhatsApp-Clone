@@ -1,6 +1,8 @@
 h1{
     color: #63b6ac;
     text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.268);
+    font-size: 3.5rem;
+    margin: 5px;
 }
 
 #form_login{
@@ -12,12 +14,17 @@ h1{
 }
 
 .incorrecto{
-    color: red;
-    margin-bottom: 5px;
+    color: rgb(255, 60, 0);
+    font-size: 1.2rem;
+    margin-bottom: 10px;
 }
 
 #form_login>input{
     margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+#form_login>button{
+    font-size: 1rem;
 }
 
 .botonRegistrar{
@@ -26,6 +33,7 @@ h1{
     border-radius: 5px;
     padding: 0;
     font-weight: bold;
+    font-size: 1rem;
 }
 
 .botonRegistrar:hover{

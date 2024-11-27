@@ -1,26 +1,75 @@
-// import addNotification from 'react-push-notification';
+import { useState } from "react";
 
-// const Prueba = () => {
+const Prueba = () => {
+    const [activeNotification, setActiveNotification] = useState(null);
 
-//     const buttonClick = () => {
-//         addNotification({
-//             title: 'WhatsApp - Clone',
-//             subtitle: 'This is a subtitle',
-//             message: 'This is a very long message',
-//             theme: 'darkblue',
-//             native: true, // when using native, your OS will handle theming.
-//             icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/800px-WhatsApp.svg.png",
-//             vibrate: [2]
-//         });
-//     };
+    const requestPermission = async () => {
+        if (!("Notification" in window)) {
+            alert("This browser does not support desktop notifications");
+            return;
+        }
 
-//     return (
-//       <div className="page">
-//           <button onClick={buttonClick} className="button">
-//            Hello world.
-//           </button>
-//       </div>
-//     );
-//   }
+        if (Notification.permission !== "granted") {
+            await Notification.requestPermission();
+        }
+    };
 
-// export default Prueba;
+    const sendNotification = (duration = 5000) => {
+        if (Notification.permission === "granted") {
+            // Close previous notification if it exists
+            if (activeNotification) {
+                activeNotification.close();
+            }
+
+            
+            const notification = new Notification("WhatsApp - Clone", {
+                body: `Mensaje de prueba `,
+                icon: "/path/to/your/icon.png",
+                silent: false,
+                requireInteraction: false,
+                tag: "whatsapp-notification", // Same tag for replacement
+            });
+
+            setActiveNotification(notification);
+
+            setTimeout(() => {
+                notification.close();
+                if (activeNotification === notification) {
+                    setActiveNotification(null);
+                }
+            }, duration);
+
+            notification.onclick = () => {
+                window.focus();
+                notification.close();
+                setActiveNotification(null);
+            };
+        } else {
+            requestPermission();
+        }
+    };
+
+    const buttonClick = async () => {
+        if (Notification.permission !== "granted") {
+            await requestPermission();
+        }
+        // Add a small delay if there's an active notification
+        if (activeNotification) {
+            setTimeout(() => {
+                sendNotification(3000);
+            }, 100);
+        } else {
+            sendNotification(3000);
+        }
+    };
+
+    return (
+        <div className="page">
+            <button onClick={buttonClick} className="button">
+                Send Notification
+            </button>
+        </div>
+    );
+}
+
+export default Prueba;
