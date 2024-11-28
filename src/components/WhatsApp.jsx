@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../App";
 
 
-function WhatsApp({usuario, setUsuario}) {
+function WhatsApp({usuario, setUsuario, selectedChat, setSelectedChat}) {
   const user_id = sessionStorage.getItem("user_id")
 
   const navigate = useNavigate()
@@ -18,8 +18,7 @@ function WhatsApp({usuario, setUsuario}) {
   }, [])
 
   let [chats, setChats] = useState([])
-  // Estado para almacenar el chat seleccionado
-  const [selectedChat, setSelectedChat] = useState(null);
+  
   // Estado para controlar la visibilidad de la barra lateral, las variables booleanas suelen empezar por is
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

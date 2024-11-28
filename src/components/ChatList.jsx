@@ -10,7 +10,7 @@ import Prueba from "./Prueba.jsx";
 debes pensar donde hacer el fetch, si pasarlo como props... pero no lo dejes como variable global
 */
 /* eslint-disable react/prop-types */
-function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsuario}) {
+function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario}) {
 
     const channel = supabase.channel('conversations')
     const [loading, setLoading] = useState(true)
@@ -34,14 +34,49 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
             if (activeNotification) {
                 activeNotification.close();
             }
+            let notification
+            if(payload.eventType === "INSERT"){
 
-            const notification = new Notification("WhatsApp - Clone", {
-                body: `@${payload.new.created_by} te ha añadido a un grupo nuevo `,
-                icon: "/chat.svg",
-                silent: false,
-                requireInteraction: false,
-                tag: "whatsapp-notification", // Same tag for replacement
-            });
+                if(payload.new.participants.length===2){
+                    notification = new Notification(`${payload.new.created_by}`, {
+                        body: `@${payload.new.created_by} te ha agregado como contacto nuevo `,
+                        icon: "/chat.svg",
+                        silent: false,
+                        requireInteraction: false,
+                        tag: "whatsapp-notification", // Same tag for replacement
+                    });
+                }
+                else if(payload.new.participants.length>2){
+                    notification = new Notification(`${payload.new.nombreGrupo}`, {
+                        body: `@${payload.new.created_by} te ha añadido al grupo. `,
+                        icon: "/chat.svg",
+                        silent: false,
+                        requireInteraction: false,
+                        tag: "whatsapp-notification", // Same tag for replacement
+                    });
+                }
+
+            } else if(payload.eventType === "UPDATE"){
+
+                if(payload.new.participants.length===2){
+                    notification = new Notification(`${payload.new.messages.at(-1).at(0)}`, {
+                        body: `${payload.new.messages.at(-1).at(1)}`,
+                        icon: "/chat.svg",
+                        silent: false,
+                        requireInteraction: false,
+                        tag: "whatsapp-notification",
+                    });
+                }
+                else if(payload.new.participants.length>2){
+                    notification = new Notification(`${payload.new.nombreGrupo}`, {
+                        body: `@${payload.new.messages.at(-1).at(0)}: ${payload.new.messages.at(-1).at(1)}`,
+                        icon: "/chat.svg",
+                        silent: false,
+                        requireInteraction: false,
+                        tag: "whatsapp-notification", // Same tag for replacement
+                    });
+                }
+            }
 
             setActiveNotification(notification);
 
@@ -77,14 +112,18 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
     };
     
     function subscribeToConversations() {
-        console.log(usuario)
+        let oldPayload 
         channel
         .on(
             "postgres_changes",
             { event: 'INSERT', schema: 'public', table: 'conversations',  },
             (payload) => {
-                console.log(payload.new)
-                if(payload.new.participants.includes(usuario)){
+                if(payload.new === oldPayload){
+                    console.log("se ha salido")
+                    return
+                }
+                else if(payload.new.participants.includes(usuario)){
+                    oldPayload = payload.new
                     setChats((prevChats) => [...prevChats, payload.new]);
                     if(payload.new.created_by !== usuario){
                         handleSendNotification(payload);
@@ -104,6 +143,9 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
             { event: 'UPDATE', schema: 'public', table: 'conversations' },
             (payload) => {
                 if(payload.new.participants.includes(usuario)){
+                    if(payload.new.messages.at(-1).at(0) !== usuario){
+                        handleSendNotification(payload);
+                    }
                     
                     setChats((prevChats) =>{
                         const newText = document.getElementById(`last-message${payload.new.id}`)
@@ -125,10 +167,6 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
         .subscribe()
     }
 
-    // useEffect(() => {
-    //     requestPermission();
-    // }, []);
-    
     useEffect(() => {
         async function newChat() {
             setChats(await funcSelectChats(usuario))
@@ -141,13 +179,10 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
     [])
 
     useEffect(()=>{
-        console.log(usuario)
         if(usuario){
-            console.log("subscribiendo")
             subscribeToConversations()
         }
     }, [usuario])
-
 
     useEffect(() => {
         if(selectedChat){
@@ -159,6 +194,18 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
             newNumberText.textContent = 0
         }
     }, [selectedChat]);
+
+
+    document.body.addEventListener("click", (e)=>{
+        try{
+            if(e.target.className !== "boton-nuevo"){
+                const opciones = document.querySelector('.opciones')
+                opciones.classList.add('oculto')
+            }
+        }catch {
+            return
+        }
+    })
 
     if (loading) {
         return (
@@ -177,8 +224,6 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
         if(chats.length>0){
             return (
                 <div className="chat-list">
-                    <button onClick={handleSendNotification}>Notification</button>
-                    {/* <Prueba/> */}
                     {chats.map((chat) => (
                         <div
                             key={chat.id}
@@ -212,17 +257,15 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario, setUsu
                     ))}
                 </div>
             );    
+        } else{
+            return(
+                <>
+                    <div className="chat-list">
+                        <h3>No tienes chats</h3>
+                    </div>
+                </>
+            )
         }
-    } else{
-        return(
-            <>
-                {/* <h1>Mis Chats</h1> */}
-                <div className="chat-list">
-                    <h3>No tienes chats</h3>
-                </div>
-
-            </>
-        )
     }
 }
 

@@ -1,28 +1,24 @@
-import { useState } from "react";
 import Message from "./Message";
 import SendIcon from "@mui/icons-material/Send";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import Fab from "@mui/material/Fab";
 import Avatar from "@mui/material/Avatar";
 import { useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
 import { MdDelete } from "react-icons/md";
 import ModalEliminar from "./ModalEliminar.jsx";
-
-/* eslint-disable react/prop-types */
-// VARIABLES GLOBALES
-// const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-// const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
-// const supabase = createClient(supabaseUrl, supabaseKey);
-const apptitle = import.meta.env.VITE_TITLE;
 import { supabase } from "../App.jsx";
+import "../css/ChatWindow.css"
+import { useNavigate } from "react-router-dom";
 
 
 function ChatWindow({ selectedChat, onSelectChat, chats, usuario }) {
 
+  const navigate = useNavigate()
+
   function abrirModal(){
-    const modalEliminar = document.querySelector('.modal-eliminar')
-    modalEliminar.classList.toggle('oculto')
+    navigate("/home/delete-contact")
+    // const modalEliminar = document.querySelector('.modal-eliminar')
+    // modalEliminar.classList.toggle('oculto')
   }
 
   // const [newMessage, setNewMessage] = useState("");
@@ -96,8 +92,7 @@ function ChatWindow({ selectedChat, onSelectChat, chats, usuario }) {
           selectedChat.nombreGrupo}</h3>
         </div>
         <MdDelete className="header-trash" onClick={abrirModal}/>
-        <ModalEliminar selectedChat={selectedChat}/>
-
+        {/* <ModalEliminar selectedChat={selectedChat}/> */}
       </div>
       <div className="messages">
         {selectedChat.messages ?selectedChat.messages.map((message, i) => {
@@ -118,10 +113,12 @@ function ChatWindow({ selectedChat, onSelectChat, chats, usuario }) {
           type="text"
           placeholder="Escribe tu mensaje..."
         />
-        <Fab variant="extended" >
-          <SendIcon sx={{ color: "#075e54" }} />
-          Enviar
-        </Fab>
+        <button type="submit" id="boton-submit">
+          <Fab variant="extended" >
+            <SendIcon sx={{ color: "#075e54" }} />
+            Enviar
+          </Fab>
+        </button>
         <Fab variant="extended">
           <AttachFileIcon sx={{ color: "#075e54" }} />
         </Fab>

@@ -69,11 +69,13 @@
 .form-grupo{
     display: flex;
     flex-direction: column;
-    width: 30%;
+    align-items: center;
+    width: 33%;
     border: 2px solid #075e54;
     border-radius: 20px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
     padding: 30px;
+    word-break: break-word;
 }
 
 .form-grupo>div{
@@ -99,15 +101,21 @@
 .form-contacto{
     display: flex;
     flex-direction: column;
-    width: 30%;
+    width: 33%;
     border: 2px solid #075e54;
     border-radius: 20px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
     padding: 30px;
+    word-break: break-all;
 }
 
 .form-contacto>div{
     margin-bottom: 20px;
+}
+
+.modal-contacto>h1{
+    word-break: break-all;
+    font-size: 2.3rem;
 }
 
 /* Modal Eliminar conversación */
@@ -129,11 +137,16 @@
 .form-eliminar{
     display: flex;
     flex-direction: column;
-    width: 30%;
+    width: 33%;
     border: 2px solid #075e54;
     border-radius: 20px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
     padding: 30px;
+    word-break: break-word;
+}
+
+.form-eliminar>h1{
+    font-size: 2.3rem;
 }
 
 .form-eliminar>div{
@@ -151,6 +164,7 @@
 }
 
 .div-botones-form{
+    width: 100%;
     display: flex;
     justify-content: space-around;
 }
@@ -177,3 +191,20 @@
     color: white;
 }
 
+.loading-message{
+    position: relative;
+    width: max-content;
+}
+
+.loading-message>span{
+    position: absolute;
+    right: 0;
+    width: 0;
+    background-color: white;
+    animation: escribir 1s steps(4) infinite;
+}
+
+@keyframes escribir {
+    from { width: 17px;}
+    to { width: 0;}
+}

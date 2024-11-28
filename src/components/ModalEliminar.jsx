@@ -1,21 +1,27 @@
 import { supabase } from "../App.jsx"
+import { useNavigate } from "react-router-dom"
 
-function ModalEliminar({selectedChat}){
+function ModalEliminar({selectedChat, setSelectedChat}){
+    const navigate = useNavigate()
+
     function cerrarModal(){
-        const modalEliminar = document.querySelector('.modal-eliminar')
-        modalEliminar.classList.toggle('oculto')
+        navigate('/home')
+        
+        // const modalEliminar = document.querySelector('.modal-eliminar')
+        // modalEliminar.classList.toggle('oculto')
     }
     async function eliminarContacto(){
         const { error } = await supabase
             .from('conversations')
             .delete()
             .eq('id', selectedChat.id)
+        setSelectedChat(null)
         cerrarModal()
 
     }
 
     return (
-        <div className="modal-eliminar oculto">
+        <div className="modal-eliminar">
             <button className="cerrar-modal" onClick={cerrarModal}>x</button>
             <div className="form-eliminar">
                 <h1>¿Está seguro de que desea eliminar esta conversación?</h1>
