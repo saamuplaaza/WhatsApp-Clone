@@ -4,15 +4,42 @@ import { Link } from "react-router-dom"
 
 function SignUp() {
 
-    async function handleClick() {
-        const username = document.getElementById("username").value
+    async function handleClick(event) {
+        event.preventDefault()
+        const divForm = document.querySelector(".signUp")
+        const username = document.querySelector("#username").value
         
-        const email = document.getElementById("email-signup").value
-        const password = document.getElementById("password-signup").value
+        const email = document.querySelector("#email-signup").value
+        const password = document.querySelector("#password-signup").value
         let { data, error } = await supabase.auth.signUp({
             email: email,
             password: password,
         })
+        const divError = document.createElement('p')
+        divError.className = "error"
+        if (error) {
+            if (error.message === "User already registered") {
+                divError.textContent = "El usuario ya está registrado"
+                divForm.appendChild(divError)
+                return
+            } else if (error.message === "Invalid login credentials") {
+                divError.textContent = "Credenciales inválidas"
+                divForm.appendChild(divError)
+                return
+            } else if (error.message === "Unable to validate email address: invalid format") {
+                divError.textContent = "Formato de email inválido"
+                divForm.appendChild(divError)
+                return
+            } else if (error.message == "Password should be at least 6 characters.") {
+                divError.textContent = "La contraseña debe tener al menos 6 caracteres"
+                divForm.appendChild(divError)
+                return
+            } else{
+                divError.textContent = "Error al registrar el usuario. Por favor, inténtelo de nuevo más tarde"
+                divForm.appendChild(divError)
+                return
+            }
+        }
 
         const { data2, error2 } = await supabase
             .from("users")
@@ -37,46 +64,18 @@ function SignUp() {
     return (
         <div className="signUp">
             <h2>Sign Up</h2>
-            <div className="form_registro">
+            <form className="form_registro" onSubmit={handleClick}>
                 <input type="text" name="name" id="name" placeholder="Nombre"></input>
                 <input type="text" name="lastName" id="lastName" placeholder="Apellidos"></input>
                 <input type="text" name="username" id="username" placeholder="Nombre de Usuario" required></input>
                 <input type="text" name="email" id="email-signup" placeholder="Email" required></input>
                 <input type="password" name="password" id="password-signup" placeholder="Contraseña" required></input>
-                <button type="button" className="botonRegistro" onClick={handleClick}>Registrarse</button>
-                <Link to="/">Volver al inicio</Link>
-            </div>
+                <button type="submit" className="botonRegistro">Registrarse</button>
+            </form>
+            <p>¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link></p>
         </div>
         
     )
 }
 
 export default SignUp
-
-// <!DOCTYPE html>
-// <html lang="es">
-
-// <head>
-//     <meta charset="UTF-8">
-//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//     <title>Document</title>
-//     <link rel="stylesheet" href="./signUp.css">
-//     <link rel="stylesheet" href="./css/WhatsApp.css">
-// </head>
-
-// <body>
-//     <h2>Sign Up</h2>
-//     <div id="form_registro">
-//         <input type="text" name="name" id="name" placeholder="Nombre">
-//         <input type="text" name="lastName" id="lastName" placeholder="Apellidos">
-//         <input type="text" name="username" id="username" placeholder="Nombre de Usuario" required>
-//         <input type="text" name="email" id="email" placeholder="Email" required>
-//         <input type="password" name="password" id="password" placeholder="Contraseña" required>
-//         <button type="button" class="botonRegistro">Registrarse</button>
-//         <a href="index.html">Volver al inicio</a>
-//     </div>
-//     <script type="module" src="signUp.js"></script>
-//     <!-- <script type="module" src="./src/main.jsx"></script> -->
-// </body>
-
-// </html>

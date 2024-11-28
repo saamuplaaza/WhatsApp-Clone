@@ -27,25 +27,11 @@
     margin-bottom: 20px;
 }
 
-
-
-
-/* #form_registro{
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#form_registro>input{
-    margin-bottom: 10px;
-}
-
-/* #form_registro>button{
-    width: 40%;
-} */ */
-
 .oculto{
     display: none;
     visibility: hidden;
+}
+
+.error{
+    color: red;
 }

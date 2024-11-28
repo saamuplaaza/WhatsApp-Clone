@@ -18,7 +18,7 @@ function WhatsApp({usuario, setUsuario, selectedChat, setSelectedChat}) {
   }, [])
 
   let [chats, setChats] = useState([])
-  
+
   // Estado para controlar la visibilidad de la barra lateral, las variables booleanas suelen empezar por is
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -67,7 +67,7 @@ function WhatsApp({usuario, setUsuario, selectedChat, setSelectedChat}) {
             usuario={usuario}
             setUsuario={setUsuario}
             selectedChat={selectedChat}
-            onSelectChat={setSelectedChat}
+            setSelectChat={setSelectedChat}
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
           />

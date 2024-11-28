@@ -9,6 +9,7 @@ import ModalEliminar from "./ModalEliminar.jsx";
 import { supabase } from "../App.jsx";
 import "../css/ChatWindow.css"
 import { useNavigate } from "react-router-dom";
+import { MdAttachFile } from "react-icons/md";
 
 
 function ChatWindow({ selectedChat, onSelectChat, chats, usuario }) {
@@ -64,6 +65,10 @@ function ChatWindow({ selectedChat, onSelectChat, chats, usuario }) {
     document.getElementById("new-message").value = ""
   };
 
+  function handleSendFile(){
+    
+  }
+
   if (!selectedChat) {
     return <div className="chat-window">
         <p className="no-chat-selected">
@@ -108,6 +113,10 @@ function ChatWindow({ selectedChat, onSelectChat, chats, usuario }) {
         )}): <p>No hay mensajes</p>}
       </div>
       <form className="input-box" onSubmit={handleSendMessage}>
+        <label id="send-file" htmlFor="input-file">
+          <MdAttachFile/>
+        </label>
+        <input type="file" id="input-file" className="oculto"/>
         <input
           id="new-message"
           type="text"
@@ -119,9 +128,6 @@ function ChatWindow({ selectedChat, onSelectChat, chats, usuario }) {
             Enviar
           </Fab>
         </button>
-        <Fab variant="extended">
-          <AttachFileIcon sx={{ color: "#075e54" }} />
-        </Fab>
       </form>
     </div>
   );

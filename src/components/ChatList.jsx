@@ -10,7 +10,7 @@ import Prueba from "./Prueba.jsx";
 debes pensar donde hacer el fetch, si pasarlo como props... pero no lo dejes como variable global
 */
 /* eslint-disable react/prop-types */
-function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario}) {
+function ChatList({ selectedChat, setSelectChat, chats, setChats, usuario}) {
 
     const channel = supabase.channel('conversations')
     const [loading, setLoading] = useState(true)
@@ -186,7 +186,6 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario}) {
 
     useEffect(() => {
         if(selectedChat){
-            
             const newText = document.getElementById(`last-message${selectedChat.id}`)
             const newNumberText = document.getElementById(`num-messages${selectedChat.id}`)
             newText.style.fontWeight = "normal"
@@ -228,7 +227,7 @@ function ChatList({ selectedChat, onSelectChat, chats, setChats, usuario}) {
                         <div
                             key={chat.id}
                             className="chat-item"
-                            onClick={() => onSelectChat(chat)}
+                            onClick={() => setSelectChat(chat)}
                         >
                             <div className="chat-container">
                                 {chat.imagenGrupo!==undefined ? (<Avatar src={chat.imagenGrupo} alt={chat.name}/>) : (
