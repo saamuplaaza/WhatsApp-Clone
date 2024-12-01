@@ -19,8 +19,6 @@ function ChatWindow({ selectedChatMessages, setSelectedChatMessages, chats, usua
 
   function abrirModal(){
     navigate("/home/delete-contact")
-    // const modalEliminar = document.querySelector('.modal-eliminar')
-    // modalEliminar.classList.toggle('oculto')
   }
 
 
@@ -55,7 +53,6 @@ function ChatWindow({ selectedChatMessages, setSelectedChatMessages, chats, usua
     
     const newText = document.getElementById("new-message").value
     const newFile = document.getElementById("input-file").files[0]
-    console.log(newFile)
     let url
     
     if(newText==="" && newFile === undefined){
@@ -68,8 +65,6 @@ function ChatWindow({ selectedChatMessages, setSelectedChatMessages, chats, usua
       const { data, error } = await supabase.storage
         .from(bucketName)
         .upload(filePath, newFile, {contentType: newFile.type});
-      console.log(data)
-      console.log(error)
       url = `https://cxttudnridlnxynfsdrb.supabase.co/storage/v1/object/public/files/${filePath}`
     }
 
@@ -92,10 +87,6 @@ function ChatWindow({ selectedChatMessages, setSelectedChatMessages, chats, usua
     messageToChat()
     document.getElementById("new-message").value = ""
   };
-
-  function handleSendFile(){
-    
-  }
 
   if (!selectedChatMessages) {
     return <div className="chat-window">
