@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../App";
 
 
-function WhatsApp({usuario, setUsuario, selectedChat, setSelectedChat}) {
+function WhatsApp({selectedChat, setSelectedChat, usuario, setUsuario, selectedChatMessages, setSelectedChatMessages, oldId, setOldId}) {
   const user_id = sessionStorage.getItem("user_id")
 
   const navigate = useNavigate()
@@ -57,7 +57,7 @@ function WhatsApp({usuario, setUsuario, selectedChat, setSelectedChat}) {
           
           {/* La barra lateral se muestra o se oculta según el estado `isSidebarOpen` 
           Parametros:
-          - onSelectChat funcion callback en este caso cambio el estado de selectedChat
+          - onSelectChat funcion callback en este caso cambio el estado de selectedChatMessages
           - isOpen: booleano para saber si la barra está abierta, paso el estado isSidebarOpen
           - onClose: funcion callback para cambiar el estado del padre osea App al cerrar el sidebar
           */}
@@ -66,18 +66,22 @@ function WhatsApp({usuario, setUsuario, selectedChat, setSelectedChat}) {
             setChats={setChats}
             usuario={usuario}
             setUsuario={setUsuario}
-            selectedChat={selectedChat}
-            setSelectChat={setSelectedChat}
+            selectedChatMessages={selectedChatMessages}
+            setSelectedChatMessages={setSelectedChatMessages}
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
+            oldId={oldId}
+            setOldId={setOldId}
+            selectedChat={selectedChat}
+            setSelectedChat={setSelectedChat}
           />
   
           {/* Ventana de chat principal */}
           <ChatWindow 
             chats={chats}
             usuario={usuario}
-            selectedChat={selectedChat} 
-            onSelectChat={setSelectedChat}
+            selectedChatMessages={selectedChatMessages} 
+            setSelectedChatMessages={setSelectedChatMessages}
           />
         </div>
       </>

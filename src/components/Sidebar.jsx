@@ -7,11 +7,11 @@ import { useNavigate } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
 
-function Sidebar({ selectedChat ,setSelectChat, isOpen, onClose, chats, setChats, usuario, setUsuario }) {
+function Sidebar({selectedChat, setSelectedChat, selectedChatMessages , setSelectedChatMessages, isOpen, onClose, chats, setChats, usuario, setUsuario, oldId, setOldId }) {
   const navigate = useNavigate()
   function logout(){
     sessionStorage.clear()
-    setSelectChat(null)
+    setSelectedChatMessages(null)
     navigate("/login")
   }
   return (
@@ -29,11 +29,15 @@ function Sidebar({ selectedChat ,setSelectChat, isOpen, onClose, chats, setChats
         setChats={setChats}
         usuario={usuario}
         setUsuario={setUsuario}
-        selectedChat={selectedChat}
-        setSelectChat={(chat) => {
-          setSelectChat(chat);
+        selectedChatMessages={selectedChatMessages}
+        setSelectedChatMessages={(chat) => {
+          setSelectedChatMessages(chat);
           onClose(); // Cerrar el sidebar al seleccionar un chat en pantallas pequeñas
         }}
+        oldId={oldId}
+        setOldId={setOldId}
+        selectedChat={selectedChat}
+        setSelectedChat={setSelectedChat}
       />
       <div className="footer-sidebar">
         <button className="boton-logout" onClick={logout}><CiLogout /> Cerrar Sesión</button>

@@ -10,7 +10,8 @@ import Prueba from "./Prueba.jsx";
 debes pensar donde hacer el fetch, si pasarlo como props... pero no lo dejes como variable global
 */
 /* eslint-disable react/prop-types */
-function ChatList({ selectedChat, setSelectChat, chats, setChats, usuario}) {
+function ChatList({selectedChat, setSelectedChat, selectedChatMessages, setSelectedChatMessages, chats, setChats, usuario, oldId, setOldId}) {
+
 
     const channel = supabase.channel('conversations')
     const [loading, setLoading] = useState(true)
@@ -119,7 +120,6 @@ function ChatList({ selectedChat, setSelectChat, chats, setChats, usuario}) {
             { event: 'INSERT', schema: 'public', table: 'conversations',  },
             (payload) => {
                 if(payload.new === oldPayload){
-                    console.log("se ha salido")
                     return
                 }
                 else if(payload.new.participants.includes(usuario)){
@@ -135,7 +135,12 @@ function ChatList({ selectedChat, setSelectChat, chats, setChats, usuario}) {
             "postgres_changes",
             { event: 'DELETE', schema: 'public', table: 'conversations' },
             (payload) => {
-                    setChats((prevChats) => prevChats.filter((chat) => chat.id !== payload.old.id))
+                
+                if(selectedChat.id === payload.old.id){
+                    setSelectedChat(null)
+                }
+                setChats((prevChats) => prevChats.filter((chat) => chat.id !== payload.old.id))
+                // setSelectedChatMessages(null)
             }
         )
         .on(
@@ -148,14 +153,14 @@ function ChatList({ selectedChat, setSelectChat, chats, setChats, usuario}) {
                     }
                     
                     setChats((prevChats) =>{
-                        const newText = document.getElementById(`last-message${payload.new.id}`)
-                        const newNumberText = document.getElementById(`num-messages${payload.new.id}`)
-                        const oldNumberText = parseInt(document.getElementById(`num-messages${payload.old.id}`).textContent)
+                        // const newText = document.getElementById(`last-message${payload.new.id}`)
+                        // const newNumberText = document.getElementById(`num-messages${payload.new.id}`)
+                        // const oldNumberText = parseInt(document.getElementById(`num-messages${payload.old.id}`).textContent)
                         return prevChats.map((chat) =>{
                             if(chat.id === payload.new.id) {
-                                newText.style.fontWeight = "bold"
-                                newNumberText.style.visibility = "visible"
-                                newNumberText.textContent = oldNumberText + 1
+                                // newText.style.fontWeight = "bold"
+                                // newNumberText.style.visibility = "visible"
+                                // newNumberText.textContent = oldNumberText + 1
                                 return { ...chat, messages: payload.new.messages }
                             }
                             return chat
@@ -184,15 +189,35 @@ function ChatList({ selectedChat, setSelectChat, chats, setChats, usuario}) {
         }
     }, [usuario])
 
-    useEffect(() => {
-        if(selectedChat){
-            const newText = document.getElementById(`last-message${selectedChat.id}`)
-            const newNumberText = document.getElementById(`num-messages${selectedChat.id}`)
-            newText.style.fontWeight = "normal"
-            newNumberText.style.visibility = "hidden"
-            newNumberText.textContent = 0
-        }
-    }, [selectedChat]);
+    // Esta parte de código era para que salga cuantos mensajes nuevos hay, pero no estaba bien del todo, así que
+    // lo he comentado por si en un futuro decido implementarlo correcatmente.
+
+    // let oldId
+
+    // useEffect(() => {
+    //     if(selectedChat !== null){
+    //         const newText = document.getElementById(`last-message${selectedChat.id}`)
+    //         const newNumberText = document.getElementById(`num-messages${selectedChat.id}`)
+    //         if(newText && newNumberText){
+    //             newText.style.fontWeight = "normal"
+    //             newNumberText.style.visibility = "hidden"
+    //             newNumberText.textContent = 0
+    //         }
+    //     }
+    // }, [selectedChat]);
+
+    // useEffect(() => {
+    //     if(selectedChat){
+    //         if(oldId !== selectedChat.id){
+    //             setOldId(selectedChat.id)
+    //             const newText = document.getElementById(`last-message${selectedChat.id}`)
+    //             const newNumberText = document.getElementById(`num-messages${selectedChat.id}`)
+    //             newText.style.fontWeight = "normal"
+    //             newNumberText.style.visibility = "hidden"
+    //             newNumberText.textContent = 0
+    //         }
+    //     }
+    // }, [selectedChatMessages])
 
 
     document.body.addEventListener("click", (e)=>{
@@ -227,7 +252,10 @@ function ChatList({ selectedChat, setSelectChat, chats, setChats, usuario}) {
                         <div
                             key={chat.id}
                             className="chat-item"
-                            onClick={() => setSelectChat(chat)}
+                            onClick={() => {
+                                setSelectedChat(chat)
+                                setSelectedChatMessages(chat)
+                            }}
                         >
                             <div className="chat-container">
                                 {chat.imagenGrupo!==undefined ? (<Avatar src={chat.imagenGrupo} alt={chat.name}/>) : (
@@ -241,14 +269,14 @@ function ChatList({ selectedChat, setSelectChat, chats, setChats, usuario}) {
                                     <div className="last-message-container">
                                         <p className="last-message" id={"last-message"+chat.id}>
                                             {chat.messages?
-                                            chat.messages.at(-1).at(0) === usuario?
-                                            `Tú: `+chat.messages.at(-1).at(-1):
+                                            JSON.parse(chat.messages.at(-1)).sender === usuario?
+                                            `Tú: `+JSON.parse(chat.messages.at(-1)).text:
                                             chat.participants.length>2?
-                                            `${chat.messages.at(-1).at(0)}: `+chat.messages.at(-1).at(-1):
-                                            chat.messages.at(-1).at(-1):
+                                            `${JSON.parse(chat.messages.at(-1)).sender}: `+JSON.parse(chat.messages.at(-1)).text:
+                                            JSON.parse(chat.messages.at(-1)).text:
                                             "Sin mensajes"}
                                         </p>
-                                        <div className="num-messages" id={"num-messages"+chat.id}>0</div>
+                                        {/* <div className="num-messages" id={"num-messages"+chat.id}>0</div> */}
                                     </div>
                                 </div>
                             </div>

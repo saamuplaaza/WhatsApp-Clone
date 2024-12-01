@@ -21,6 +21,10 @@ function App(){
 
     // Estado para almacenar el chat seleccionado
     const [selectedChat, setSelectedChat] = useState(null);
+    const [selectedChatMessages, setSelectedChatMessages] = useState(null);
+
+    const [oldId, setOldId] = useState(0)
+
 
     useState(()=>{
     },[])
@@ -29,7 +33,7 @@ function App(){
         <>
             <Routes>
                 <Route path="/" element={!sessionStorage.getItem('access_token')?<Navigate to="/login"/>:<Navigate to="/home"/>} />
-                <Route path="/home" element={<WhatsApp usuario={usuario} setUsuario={setUsuario} selectedChat={selectedChat} setSelectedChat={setSelectedChat}/>} />
+                <Route path="/home" element={<WhatsApp selectedChat={selectedChat} setSelectedChat={setSelectedChat} usuario={usuario} setUsuario={setUsuario} selectedChatMessages={selectedChatMessages} setSelectedChatMessages={setSelectedChatMessages} oldId={oldId} setOldId={setOldId}/>} />
                 <Route path="/login" element={<Login token={token} setToken={setToken} usuario={usuario} setUsuario={setUsuario}/>} />
                 <Route path="/signup" element={<SignUp/>} />
                 <Route path="/home/new-group" element={<FormGrupo usuario={usuario} />} />

@@ -12,7 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { MdAttachFile } from "react-icons/md";
 
 
-function ChatWindow({ selectedChat, onSelectChat, chats, usuario }) {
+function ChatWindow({ selectedChatMessages, setSelectedChatMessages, chats, usuario }) {
+  const user_id = sessionStorage.getItem('user_id')
 
   const navigate = useNavigate()
 
@@ -22,14 +23,13 @@ function ChatWindow({ selectedChat, onSelectChat, chats, usuario }) {
     // modalEliminar.classList.toggle('oculto')
   }
 
-  // const [newMessage, setNewMessage] = useState("");
 
   useEffect(() => {
     if(chats){
       if(chats.length > 0){
-        if(selectedChat){
-          let [chat] = chats.filter((c) => c.id === selectedChat.id)
-          onSelectChat(chat)
+        if(selectedChatMessages){
+          let [chat] = chats.filter((c) => c.id === selectedChatMessages.id)
+          setSelectedChatMessages(chat)
         }}
     }
   }, [chats])
@@ -44,21 +44,49 @@ function ChatWindow({ selectedChat, onSelectChat, chats, usuario }) {
       input.focus()
     }
       
-  }, [selectedChat])
+  }, [selectedChatMessages])
 
   async function  handleSendMessage(event){
     event.preventDefault()
-    let newMessage = document.getElementById("new-message").value
-    if(newMessage===""){
+    let hour = new Date().getHours();
+    let minutes = new Date().getMinutes();
+    let seconds = new Date().getSeconds();
+    let time = `${hour}:${minutes}:${seconds}`;
+    
+    const newText = document.getElementById("new-message").value
+    const newFile = document.getElementById("input-file").files[0]
+    console.log(newFile)
+    let url
+    
+    if(newText==="" && newFile === undefined){
       return
     }
-    let message = [usuario, newMessage]
+
+    if (newFile){
+      const bucketName = 'files';
+      const filePath = `${user_id}_${newFile.name}_${time}`;
+      const { data, error } = await supabase.storage
+        .from(bucketName)
+        .upload(filePath, newFile, {contentType: newFile.type});
+      console.log(data)
+      console.log(error)
+      url = `https://cxttudnridlnxynfsdrb.supabase.co/storage/v1/object/public/files/${filePath}`
+    }
+
+    let message = {
+      text: newText,
+      sender: usuario,
+      time: time,
+      file: url?url:null
+    }
+    // let message = [usuario, newMessage]
+    message = JSON.stringify(message)
 
     async function messageToChat() {
       const { data, error } = await supabase
       .from('conversations')
-      .update(!selectedChat.messages?{messages: [message]}:{ messages: [...selectedChat.messages, message] })
-      .eq('id', selectedChat.id)
+      .update(!selectedChatMessages.messages?{messages: [message]}:{ messages: [...selectedChatMessages.messages, message] })
+      .eq('id', selectedChatMessages.id)
       .select()
     }
     messageToChat()
@@ -69,7 +97,7 @@ function ChatWindow({ selectedChat, onSelectChat, chats, usuario }) {
     
   }
 
-  if (!selectedChat) {
+  if (!selectedChatMessages) {
     return <div className="chat-window">
         <p className="no-chat-selected">
           Select a chat to start messaging
@@ -81,34 +109,34 @@ function ChatWindow({ selectedChat, onSelectChat, chats, usuario }) {
     <div className="chat-window">
       <div className="chat-header">
         <div className="header-usuario">
-          {selectedChat.avatar ? (
-            <Avatar src={selectedChat.avatar} alt={selectedChat.name} />
+          {selectedChatMessages.avatar ? (
+            <Avatar src={selectedChatMessages.avatar} alt={selectedChatMessages.name} />
           ) : 
           (
-            // <Avatar>{selectedChat.name.charAt(0).toUpperCase()}</Avatar>
-            <Avatar src = {selectedChat.participants.length===2?
-              (selectedChat.participants.filter((p) => p !== usuario)[0].charAt(0).toUpperCase()):
-              selectedChat.imagenGrupo!==null?selectedChat.imagenGrupo:""
+            // <Avatar>{selectedChatMessages.name.charAt(0).toUpperCase()}</Avatar>
+            <Avatar src = {selectedChatMessages.participants.length===2?
+              (selectedChatMessages.participants.filter((p) => p !== usuario)[0].charAt(0).toUpperCase()):
+              selectedChatMessages.imagenGrupo!==null?selectedChatMessages.imagenGrupo:""
             }></Avatar>
           )}
 
-          <h3 className="header-nombre-usuario">{selectedChat.participants.length===2?
-          (selectedChat.participants.filter((p) => p !== usuario)):
-          selectedChat.nombreGrupo}</h3>
+          <h3 className="header-nombre-usuario">{selectedChatMessages.participants.length===2?
+          (selectedChatMessages.participants.filter((p) => p !== usuario)):
+          selectedChatMessages.nombreGrupo}</h3>
         </div>
         <MdDelete className="header-trash" onClick={abrirModal}/>
-        {/* <ModalEliminar selectedChat={selectedChat}/> */}
       </div>
       <div className="messages">
-        {selectedChat.messages ?selectedChat.messages.map((message, i) => {
+        {selectedChatMessages.messages ?selectedChatMessages.messages.map((message, i) => {
           return(
           <Message
-            key={`${selectedChat.id}-${i}`}
-            text={message.at(-1)}
-            selectedChat={selectedChat}
+            key={`${selectedChatMessages.id}-${i}`}
+            text={JSON.parse(message).text}
+            file={JSON.parse(message).file}
+            selectedChatMessages={selectedChatMessages}
             usuario={usuario}
             indice ={i}
-            sender={message.at(0)}
+            sender={JSON.parse(message).sender}
           />
         )}): <p>No hay mensajes</p>}
       </div>
