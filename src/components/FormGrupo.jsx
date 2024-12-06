@@ -61,7 +61,6 @@ function FormGrupo({usuario}) {
                 cerrarModal()
             }, 300)
         } catch (error) {
-            console.error('Error:', error)
             loadingMessage.innerHTML = 'Algo ha salido mal, por favor intentelo de nuevo más tarde'
         }
     }

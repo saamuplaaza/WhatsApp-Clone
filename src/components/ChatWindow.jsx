@@ -46,8 +46,7 @@ function ChatWindow({ selectedChatMessages, setSelectedChatMessages, chats, usua
     event.preventDefault()
     let hour = new Date().getHours();
     let minutes = new Date().getMinutes();
-    let seconds = new Date().getSeconds();
-    let time = `${hour}:${minutes}:${seconds}`;
+    let time = `${hour}:${minutes<9?"0"+minutes:minutes}`;
     
     const newText = document.getElementById("new-message").value
     const newFile = document.getElementById("input-file").files[0]
@@ -121,6 +120,7 @@ function ChatWindow({ selectedChatMessages, setSelectedChatMessages, chats, usua
             text={JSON.parse(message).text}
             file={JSON.parse(message).file}
             selectedChatMessages={selectedChatMessages}
+            time={JSON.parse(message).time}
             usuario={usuario}
             indice ={i}
             sender={JSON.parse(message).sender}
