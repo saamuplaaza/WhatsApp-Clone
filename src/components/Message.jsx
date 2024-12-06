@@ -18,7 +18,8 @@ function Message({ selectedChatMessages, text, file, sender, usuario, indice }) 
       <p className="usuario-message" style={{color: `#${getAscii(JSON.parse(selectedChatMessages.messages.at(indice)).sender.at(0))}${getAscii(JSON.parse(selectedChatMessages.messages.at(indice)).sender.at(1))}${getAscii(JSON.parse(selectedChatMessages.messages.at(indice)).sender.at(2))}`}}>
         {selectedChatMessages.participants.length>2?`${JSON.parse(selectedChatMessages.messages.at(indice)).sender===usuario?"":JSON.parse(selectedChatMessages.messages.at(indice)).sender} `:""}
       </p>
-      {file?<img src={file} className="img-message"/>:""}
+      {console.log(file)}
+      {file?file.type.includes("image")?<img src={file.url} className="img-message"/>:<a href={file.url}>{file.url}</a>:""}
       
       <p>{text}</p>
     </div>

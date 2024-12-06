@@ -3,13 +3,11 @@ import Sidebar from "./Sidebar";
 import ChatWindow from "./ChatWindow";
 import "../css/WhatsApp.css";
 import "../App.css"
-// import { Notifications } from 'react-push-notification';
-// import Prueba from "./Prueba";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../App";
 
 
-function WhatsApp({selectedChat, setSelectedChat, usuario, setUsuario, selectedChatMessages, setSelectedChatMessages, oldId, setOldId}) {
+function WhatsApp({ setSelectedChat, usuario, setUsuario, selectedChatMessages, setSelectedChatMessages }) {
   const user_id = sessionStorage.getItem("user_id")
 
   const navigate = useNavigate()
@@ -55,24 +53,13 @@ function WhatsApp({selectedChat, setSelectedChat, usuario, setUsuario, selectedC
           )}
   
           
-          {/* La barra lateral se muestra o se oculta según el estado `isSidebarOpen` 
-          Parametros:
-          - onSelectChat funcion callback en este caso cambio el estado de selectedChatMessages
-          - isOpen: booleano para saber si la barra está abierta, paso el estado isSidebarOpen
-          - onClose: funcion callback para cambiar el estado del padre osea App al cerrar el sidebar
-          */}
           <Sidebar
             chats={chats}
             setChats={setChats}
             usuario={usuario}
-            setUsuario={setUsuario}
-            selectedChatMessages={selectedChatMessages}
             setSelectedChatMessages={setSelectedChatMessages}
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
-            oldId={oldId}
-            setOldId={setOldId}
-            selectedChat={selectedChat}
             setSelectedChat={setSelectedChat}
           />
   

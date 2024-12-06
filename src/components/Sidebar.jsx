@@ -1,13 +1,11 @@
 import ChatList from "./ChatList";
 import BotonNuevo from "./BotonNuevo";
-import { useEffect, useState } from "react";
 import { CiLogout } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
-// import Prueba from "./Prueba";
 
 /* eslint-disable react/prop-types */
 
-function Sidebar({selectedChat, setSelectedChat, selectedChatMessages , setSelectedChatMessages, isOpen, onClose, chats, setChats, usuario, setUsuario, oldId, setOldId }) {
+function Sidebar({ setSelectedChat, setSelectedChatMessages, isOpen, onClose, chats, setChats, usuario }) {
   const navigate = useNavigate()
   function logout(){
     sessionStorage.clear()
@@ -28,15 +26,10 @@ function Sidebar({selectedChat, setSelectedChat, selectedChatMessages , setSelec
         chats={chats}
         setChats={setChats}
         usuario={usuario}
-        setUsuario={setUsuario}
-        selectedChatMessages={selectedChatMessages}
         setSelectedChatMessages={(chat) => {
-          setSelectedChatMessages(chat);
+          setSelectedChatMessages(chat)
           onClose(); // Cerrar el sidebar al seleccionar un chat en pantallas pequeñas
         }}
-        oldId={oldId}
-        setOldId={setOldId}
-        selectedChat={selectedChat}
         setSelectedChat={setSelectedChat}
       />
       <div className="footer-sidebar">

@@ -1,16 +1,11 @@
 import "../css/ChatList.css";
-// import chats from "../mocks/dataChats.json";
 import { funcSelectChats } from "../mocks/chats.js";
 import Avatar from "@mui/material/Avatar";
 import { useEffect, useState } from "react";
 import { supabase } from "../App.jsx";
-import Prueba from "./Prueba.jsx";
 
-/* mapea los chats que está en los mocks/chats.js y los muestra en la lista de chats  
-debes pensar donde hacer el fetch, si pasarlo como props... pero no lo dejes como variable global
-*/
 /* eslint-disable react/prop-types */
-function ChatList({selectedChat, setSelectedChat, selectedChatMessages, setSelectedChatMessages, chats, setChats, usuario, oldId, setOldId}) {
+function ChatList({ setSelectedChat, setSelectedChatMessages, chats, setChats, usuario }) {
 
 
     const channel = supabase.channel('conversations')
@@ -60,8 +55,8 @@ function ChatList({selectedChat, setSelectedChat, selectedChatMessages, setSelec
             } else if(payload.eventType === "UPDATE"){
 
                 if(payload.new.participants.length===2){
-                    notification = new Notification(`${payload.new.messages.at(-1).at(0)}`, {
-                        body: `${payload.new.messages.at(-1).at(1)}`,
+                    notification = new Notification(`${JSON.parse(payload.new.messages.at(-1)).sender}`, {
+                        body: `${JSON.parse(payload.new.messages.at(-1)).text}`,
                         icon: "/chat.svg",
                         silent: false,
                         requireInteraction: false,
@@ -70,11 +65,11 @@ function ChatList({selectedChat, setSelectedChat, selectedChatMessages, setSelec
                 }
                 else if(payload.new.participants.length>2){
                     notification = new Notification(`${payload.new.nombreGrupo}`, {
-                        body: `@${payload.new.messages.at(-1).at(0)}: ${payload.new.messages.at(-1).at(1)}`,
-                        icon: "/chat.svg",
+                        body: `@${JSON.parse(payload.new.messages.at(-1)).sender}: ${JSON.parse(payload.new.messages.at(-1)).text}`,
+                        icon: payload.new.imagenGrupo,
                         silent: false,
                         requireInteraction: false,
-                        tag: "whatsapp-notification", // Same tag for replacement
+                        tag: "whatsapp-notification",
                     });
                 }
             }
@@ -136,11 +131,15 @@ function ChatList({selectedChat, setSelectedChat, selectedChatMessages, setSelec
             { event: 'DELETE', schema: 'public', table: 'conversations' },
             (payload) => {
                 
-                if(selectedChat.id === payload.old.id){
-                    setSelectedChat(null)
-                }
+                setSelectedChatMessages((prevSelectedChat) => {
+                    if (prevSelectedChat && prevSelectedChat.id === payload.old.id) {
+                        return null
+                    } else{
+                        return prevSelectedChat
+                    }
+
+                })
                 setChats((prevChats) => prevChats.filter((chat) => chat.id !== payload.old.id))
-                // setSelectedChatMessages(null)
             }
         )
         .on(
@@ -148,7 +147,7 @@ function ChatList({selectedChat, setSelectedChat, selectedChatMessages, setSelec
             { event: 'UPDATE', schema: 'public', table: 'conversations' },
             (payload) => {
                 if(payload.new.participants.includes(usuario)){
-                    if(payload.new.messages.at(-1).at(0) !== usuario){
+                    if(JSON.parse(payload.new.messages.at(-1)).sender !== usuario){
                         handleSendNotification(payload);
                     }
                     

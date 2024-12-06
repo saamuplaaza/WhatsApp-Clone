@@ -1,8 +1,6 @@
-// import { useEffect } from 'react'
 import '../css/Login.css'
 import { supabase } from "../App.jsx"
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
 
 function Login({setToken}) {
     const navigate = useNavigate()
@@ -45,9 +43,7 @@ function Login({setToken}) {
                 <input  type="password" name="password" id="password" placeholder='Contraseña'/>
                 <button type="submit" className='botonLogin'>Iniciar Sesión</button>
                 <p>¿Aún no tienes una cuenta? <button type="button" className="botonRegistrar" onClick={()=>{
-                        // const signup = document.querySelector(".signUp")
-                        // signup.classList.toggle("oculto")
-                        navigate('/signup')
+                    navigate('/signup')
 
                 }}>Regístrate</button></p>
             </form>

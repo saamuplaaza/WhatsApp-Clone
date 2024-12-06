@@ -1,23 +1,21 @@
 import { supabase } from "../App.jsx"
 import { useNavigate } from "react-router-dom"
 
-function ModalEliminar({selectedChat, setSelectedChat}){
+function ModalEliminar({selectedChat, setSelectedChat, setSelectedChatMessages}){
     const navigate = useNavigate()
 
     function cerrarModal(){
         navigate('/home')
-        
-        // const modalEliminar = document.querySelector('.modal-eliminar')
-        // modalEliminar.classList.toggle('oculto')
     }
+
     async function eliminarContacto(){
         const { error } = await supabase
             .from('conversations')
             .delete()
             .eq('id', selectedChat.id)
         setSelectedChat(null)
+        setSelectedChatMessages(null)
         cerrarModal()
-
     }
 
     return (
@@ -32,15 +30,7 @@ function ModalEliminar({selectedChat, setSelectedChat}){
                 </div>
             </div>
         </div>
-            // <div className="modal-eliminar oculto">
-            //     <h1>¿Está seguro de que desea eliminar esta conversación?</h1>
-            //     <button className="cerrar-modal" onClick={cerrarModal}>x</button>
-            //     <div className="div-botones-form">
-            //         <button type="button" className="boton-crear" onClick={eliminarContacto}>Aceptar</button>
-            //         <button type="button" className="boton-cancelar" onClick={cerrarModal}>Cancelar</button>
-            //     </div>
-            // </div>
-    );
+    )
 }
 
 export default ModalEliminar

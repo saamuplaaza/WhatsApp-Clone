@@ -1,8 +1,10 @@
 import "../css/SignUp.css"
 import { supabase } from "../App"
 import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 function SignUp() {
+    const navigate = useNavigate()
 
     async function handleClick(event) {
         event.preventDefault()
@@ -58,21 +60,30 @@ function SignUp() {
         sessionStorage.setItem("refresh_token", data.session.refresh_token)
         sessionStorage.setItem("user_id", data.session.user.id)
 
-        document.location.href = "index.html"
+        setTimeout(() => {
+            navigate("/")
+        }, 500)
     }
 
     return (
         <div className="signUp">
-            <h2>Sign Up</h2>
+            <h1>Sign Up</h1>
             <form className="form_registro" onSubmit={handleClick}>
-                <input type="text" name="name" id="name" placeholder="Nombre"></input>
-                <input type="text" name="lastName" id="lastName" placeholder="Apellidos"></input>
-                <input type="text" name="username" id="username" placeholder="Nombre de Usuario" required></input>
+                <div className="userData">
+                    <input type="text" name="name" id="name" placeholder="Nombre"></input>
+                    <input type="text" name="lastName" id="lastName" placeholder="Apellidos"></input>
+                </div>
                 <input type="text" name="email" id="email-signup" placeholder="Email" required></input>
-                <input type="password" name="password" id="password-signup" placeholder="Contraseña" required></input>
+                <div>
+                    <input type="text" name="username" id="username" placeholder="Nombre de Usuario" required></input>
+                    <input type="password" name="password" id="password-signup" placeholder="Contraseña" required></input>
+                </div>
                 <button type="submit" className="botonRegistro">Registrarse</button>
             </form>
-            <p>¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link></p>
+            <p>¿Ya tienes una cuenta? <button type="button" className="botonRegistrar" onClick={()=>{
+                    navigate('/login')
+
+                }}>Iniciar Sesión</button></p>
         </div>
         
     )

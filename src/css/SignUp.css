@@ -4,7 +4,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("../messaging_app_background2.png");
+    background-repeat: no-repeat;
+    background-size: cover;
     color: black;
     top: 0;
     left: 0;
@@ -16,15 +18,32 @@
 .form_registro{
     display: flex;
     flex-direction: column;
+    /* align-items: center; */
     width: 30%;
-    border: 2px solid #075e54;
+    /* border: 2px solid #075e54; */
+    background: radial-gradient(#e4f8f5, #68a69c);
     border-radius: 20px;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 10px #13473e;
     padding: 30px;
 }
 
 .form_registro>div{
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    /* flex: auto; */
+}
+
+.form_registro>input{
+    margin-bottom: 10px;
+}
+
+.userData>:nth-child(1){
+    max-width: 30%;
+}
+
+.form_registro>div>:last-child{
+    margin-left: 5px;
 }
 
 .oculto{
@@ -34,4 +53,18 @@
 
 .error{
     color: red;
+}
+
+p{
+    color: white;
+}
+
+.botonRegistro{
+    border-radius: 20px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.botonRegistro:hover{
+    background-color: #085048;
 }

@@ -36,7 +36,19 @@
 .usuario-message{
     font-size: 0.8rem;
 }
-
+    
 .img-message{
-    width: 200px;
+    width: 300px;
+}
+
+a{
+    color: rgb(129, 168, 255);
+}
+
+a:hover{
+    color: rgb(101, 153, 248);
+}
+
+a:visited{
+    color: rgb(111, 162, 255);
 }

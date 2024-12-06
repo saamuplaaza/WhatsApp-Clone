@@ -1,11 +1,9 @@
 import Message from "./Message";
 import SendIcon from "@mui/icons-material/Send";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import Fab from "@mui/material/Fab";
 import Avatar from "@mui/material/Avatar";
 import { useEffect } from "react";
 import { MdDelete } from "react-icons/md";
-import ModalEliminar from "./ModalEliminar.jsx";
 import { supabase } from "../App.jsx";
 import "../css/ChatWindow.css"
 import { useNavigate } from "react-router-dom";
@@ -61,7 +59,7 @@ function ChatWindow({ selectedChatMessages, setSelectedChatMessages, chats, usua
 
     if (newFile){
       const bucketName = 'files';
-      const filePath = `${user_id}_${newFile.name}_${time}`;
+      const filePath = `${user_id}_${time}_${newFile.name}`;
       const { data, error } = await supabase.storage
         .from(bucketName)
         .upload(filePath, newFile, {contentType: newFile.type});
@@ -72,9 +70,8 @@ function ChatWindow({ selectedChatMessages, setSelectedChatMessages, chats, usua
       text: newText,
       sender: usuario,
       time: time,
-      file: url?url:null
+      file: url?{url:url, type:newFile.type}:null
     }
-    // let message = [usuario, newMessage]
     message = JSON.stringify(message)
 
     async function messageToChat() {
@@ -104,7 +101,6 @@ function ChatWindow({ selectedChatMessages, setSelectedChatMessages, chats, usua
             <Avatar src={selectedChatMessages.avatar} alt={selectedChatMessages.name} />
           ) : 
           (
-            // <Avatar>{selectedChatMessages.name.charAt(0).toUpperCase()}</Avatar>
             <Avatar src = {selectedChatMessages.participants.length===2?
               (selectedChatMessages.participants.filter((p) => p !== usuario)[0].charAt(0).toUpperCase()):
               selectedChatMessages.imagenGrupo!==null?selectedChatMessages.imagenGrupo:""

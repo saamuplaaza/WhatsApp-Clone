@@ -13,25 +13,25 @@ function FormGrupo({usuario}) {
             let hour = new Date().getHours();
             let minutes = new Date().getMinutes();
             let seconds = new Date().getSeconds();
-            let time = `${hour}:${minutes}:${seconds}`;
-            const modalGrupo = document.querySelector('.form-grupo');
-            const nombreGrupo = document.querySelector('#nombre-grupo').value;
+            let time = `${hour}:${minutes}:${seconds}`
+            const modalGrupo = document.querySelector('.form-grupo')
+            const nombreGrupo = document.querySelector('#nombre-grupo').value
             
             // Show loading state
-            const loadingMessage = document.createElement('div');
-            loadingMessage.classList.add('loading-message');
-            loadingMessage.innerHTML = 'Creando grupo....<span>&#160</span>';
-            modalGrupo.appendChild(loadingMessage);
+            const loadingMessage = document.createElement('div')
+            loadingMessage.classList.add('loading-message')
+            loadingMessage.innerHTML = 'Creando grupo....<span>&#160</span>'
+            modalGrupo.appendChild(loadingMessage)
     
-            const inputElement = document.querySelector('#imagen-grupo');
-            const file = inputElement.files[0];
+            const inputElement = document.querySelector('#imagen-grupo')
+            const file = inputElement.files[0]
     
-            let usuarios = [usuario];
-            const miembrosGrupo = document.querySelector('#miembros-grupo').value.split(',');
-            usuarios.push(...miembrosGrupo);
+            let usuarios = [usuario]
+            const miembrosGrupo = document.querySelector('#miembros-grupo').value.split(',')
+            usuarios.push(...miembrosGrupo)
     
-            const bucketName = 'groupImages';
-            const filePath = `${user_id}_${file.name}_${time}`;
+            const bucketName = 'groupImages'
+            const filePath = `${user_id}_${time}_${file.name}`
     
             // Upload image
             const { data, error } = await supabase.storage
@@ -47,22 +47,22 @@ function FormGrupo({usuario}) {
                     created_by: usuario,
                     imagenGrupo: `https://cxttudnridlnxynfsdrb.supabase.co/storage/v1/object/public/groupImages/${user_id}_${file.name}_${time}`
                 }])
-                .select();
+                .select()
     
     
             // Show success notification
-            loadingMessage.innerHTML = '¡Grupo creado correctamente!';
+            loadingMessage.innerHTML = '¡Grupo creado correctamente!'
             
             setTimeout(() => {
                 // Remove loading message
-                loadingMessage.remove();
+                loadingMessage.remove()
                 
                 // Navigate to home
-                cerrarModal();
-            }, 300);
+                cerrarModal()
+            }, 300)
         } catch (error) {
-            console.error('Error:', error);
-            loadingMessage.innerHTML = 'Algo ha salido mal, por favor intentelo de nuevo más tarde';
+            console.error('Error:', error)
+            loadingMessage.innerHTML = 'Algo ha salido mal, por favor intentelo de nuevo más tarde'
         }
     }
 

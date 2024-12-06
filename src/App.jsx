@@ -23,9 +23,6 @@ function App(){
     const [selectedChat, setSelectedChat] = useState(null);
     const [selectedChatMessages, setSelectedChatMessages] = useState(null);
 
-    const [oldId, setOldId] = useState(0)
-
-
     useState(()=>{
     },[])
     
@@ -33,12 +30,12 @@ function App(){
         <>
             <Routes>
                 <Route path="/" element={!sessionStorage.getItem('access_token')?<Navigate to="/login"/>:<Navigate to="/home"/>} />
-                <Route path="/home" element={<WhatsApp selectedChat={selectedChat} setSelectedChat={setSelectedChat} usuario={usuario} setUsuario={setUsuario} selectedChatMessages={selectedChatMessages} setSelectedChatMessages={setSelectedChatMessages} oldId={oldId} setOldId={setOldId}/>} />
-                <Route path="/login" element={<Login token={token} setToken={setToken} usuario={usuario} setUsuario={setUsuario}/>} />
+                <Route path="/home" element={<WhatsApp setSelectedChat={setSelectedChat} usuario={usuario} setUsuario={setUsuario} selectedChatMessages={selectedChatMessages} setSelectedChatMessages={setSelectedChatMessages} />} />
+                <Route path="/login" element={<Login setToken={setToken} />} />
                 <Route path="/signup" element={<SignUp/>} />
                 <Route path="/home/new-group" element={<FormGrupo usuario={usuario} />} />
                 <Route path="/home/new-contact" element={<FormNuevoContacto usuario={usuario}/>} />
-                <Route path="/home/delete-contact" element={<ModalEliminar selectedChat={selectedChat} setSelectedChat={setSelectedChat} />} />
+                <Route path="/home/delete-contact" element={<ModalEliminar selectedChat={selectedChat} setSelectedChat={setSelectedChat} setSelectedChatMessages={setSelectedChatMessages}/>} />
                 <Route path="*" element={<Navigate to="/"/>} />
             </Routes>
         </>
